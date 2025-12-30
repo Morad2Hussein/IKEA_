@@ -15,6 +15,7 @@ namespace Demo.DAL.Models
         public EmployeeType EmployeeType { get; set; }
         public Gender Gender { get; set; }
         public DateTime HiringDate { get; set; }
+        public string? PhotoName { get; set; }
         #endregion
         #region Relationship
         public virtual Department? Department { get; set; }

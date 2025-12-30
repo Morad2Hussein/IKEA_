@@ -1,0 +1,106 @@
+﻿@model IEnumerable<UserViewModel>
+
+@* قسم رسائل التنبيه *@
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show border-0 shadow-sm mb-4 animate__animated animate__fadeInDown"
+         style="background: rgba(59, 130, 246, 0.2); color: #f9fafb; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1) !important;">
+        <i class="fas fa-info-circle me-2 text-primary"></i>
+        @TempData["Message"]
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="main-card animate__animated animate__fadeIn">
+    <div class="card-header-custom">
+        <h5 class="m-0 text-white">
+            <i class="fas fa-user-shield me-2 text-primary"></i> User Management
+        </h5>
+        <a class="btn btn-outline-light btn-sm" asp-action="Index"><i class="fas fa-sync me-1"></i> Refresh</a>
+    </div>
+
+    <div class="content-body">
+        @* Search Bar *@
+        <div class="row justify-content-center my-4">
+            <div class="col-md-6 px-4">
+                <form asp-action="Index" method="get" class="input-group shadow-sm">
+                    <span class="input-group-text bg-dark border-0 text-muted"><i class="fas fa-search"></i></span>
+                    <input type="text" name="search" class="form-control bg-dark text-white border-0"
+                           placeholder="Search by email..." value="@Context.Request.Query["search"]" />
+                    <button class="btn btn-primary px-4" type="submit">Filter</button>
+                </form>
+            </div>
+        </div>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="table-container mx-4 mb-4">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Identity</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Roles</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td class="ps-4">
+                                    <code class="text-info small">@user.Id.Substring(0, 8)...</code>
+                                </td>
+                                <td class="fw-bold text-dark">@user.FirstName @user.LastName</td>
+                                <td class="text-muted">@user.Email</td>
+                                <td>
+                                    @if (user.Roles != null && user.Roles.Any())
+                                    {
+                                        @foreach (var role in user.Roles)
+                                        {
+                                            @* تمييز الأدوار: Admin باللون الأحمر، وغيره بالأزرق *@
+                                            var badgeClass = role.ToLower() == "admin" ? "bg-danger text-danger border-danger" : "bg-primary text-primary border-primary";
+
+                                            <span class="badge rounded-pill bg-opacity-10 border border-opacity-25 me-1 @badgeClass">
+                                                <i class="fas @(role.ToLower() == "admin" ? "fa-crown" : "fa-user-tag") me-1 small"></i> @role
+                                            </span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted small italic">No Roles Assigned</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-sm btn-warning shadow-sm" title="Edit User">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-sm btn-info shadow-sm text-white" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <button class="btn btn-sm btn-danger shadow-sm"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal-@user.Id"
+                                                title="Delete User">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            @* Empty State *@
+            <div class="text-center py-5">
+                <i class="fas fa-user-slash fa-3x text-muted opacity-25 mb-3"></i>
+                <h5 class="text-muted">No users found matching your criteria.</h5>
+            </div>
+        }
+    </div>
+</div>

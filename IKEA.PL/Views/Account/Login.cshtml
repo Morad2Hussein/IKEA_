@@ -1,0 +1,75 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<div class="d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+    <div class="main-card animate__animated animate__fadeIn" style="max-width: 450px; width: 100%;">
+
+        @* Professional Header *@
+        <div class="card-header-custom text-center py-4">
+            <h4 class="m-0 text-white">
+                <i class="fas fa-lock me-2 text-primary"></i> Account Login
+            </h4>
+            <small class="text-white-50">Welcome back! Please enter your details.</small>
+        </div>
+
+        <div class="content-body p-4 bg-white shadow-lg rounded-bottom">
+            <form asp-action="Login" method="post">
+                @* Error Summary styled professionally *@
+                <div asp-validation-summary="All" class="text-danger small mb-3"></div>
+
+                @* Email Field *@
+                <div class="form-group mb-3">
+                    <label class="form-label text-muted small fw-bold">EMAIL ADDRESS</label>
+                    <div class="input-group shadow-sm">
+                        <span class="input-group-text bg-light border-0 text-primary">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        @* text-dark ensures black text while typing *@
+                        <input asp-for="Email" class="form-control border-0 bg-light py-2 text-dark fw-bold" placeholder="name@example.com">
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger x-small"></span>
+                </div>
+
+                @* Password Field *@
+                <div class="form-group mb-3">
+                    <label class="form-label text-muted small fw-bold">PASSWORD</label>
+                    <div class="input-group shadow-sm">
+                        <span class="input-group-text bg-light border-0 text-primary">
+                            <i class="fas fa-key"></i>
+                        </span>
+                        <input asp-for="Password" type="password" class="form-control border-0 bg-light py-2 text-dark fw-bold" placeholder="••••••••">
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger x-small"></span>
+                </div>
+
+                @* Options Section *@
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="form-check">
+                        <input asp-for="RememberMe" class="form-check-input checkbox">
+                        <label class="form-check-label text-muted small" asp-for="RememberMe">
+                            Remember Me
+                        </label>
+                    </div>
+                    <a asp-action="ForgotPassword" class="small text-decoration-none fw-bold">Forgot Password?</a>
+                </div>
+
+                @* Submit Button *@
+                <button type="submit" class="btn btn-primary w-100 py-2 shadow-sm fw-bold mb-3">
+                    SIGN IN <i class="fas fa-sign-in-alt ms-2"></i>
+                </button>
+            </form>
+
+            @* Registration Link *@
+            <div class="text-center mt-4">
+                <p class="text-muted small">
+                    Don't have an account?
+                    <a asp-action="Register" class="text-primary fw-bold text-decoration-none">Register Now!</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,137 @@
+﻿@model IEnumerable<RoleViewModels>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* قسم رسائل التنبيه *@
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show border-0 shadow-sm mb-4 animate__animated animate__fadeInDown"
+         style="background: rgba(59, 130, 246, 0.2); color: #f9fafb; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1) !important;">
+        <i class="fas fa-info-circle me-2 text-primary"></i>
+        @TempData["Message"]
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="main-card animate__animated animate__fadeIn">
+    @* Header *@
+    <div class="card-header-custom d-flex justify-content-between align-items-center">
+        <h5 class="m-0 text-white">
+            <i class="fas fa-shield-alt me-2 text-primary"></i> Role Management
+        </h5>
+        <div class="d-flex gap-2">
+            <a class="btn btn-primary btn-sm shadow-sm" asp-action="Create">
+                <i class="fas fa-plus me-1"></i> Create New Role
+            </a>
+            <a class="btn btn-outline-light btn-sm" asp-action="Index">
+                <i class="fas fa-sync me-1"></i> Refresh
+            </a>
+        </div>
+    </div>
+
+    <div class="content-body">
+        @* Search Bar *@
+        <div class="row justify-content-center my-4">
+            <div class="col-md-6 px-4">
+                <form asp-action="Index" method="get" class="input-group shadow-sm">
+                    <span class="input-group-text bg-dark border-0 text-muted"><i class="fas fa-search"></i></span>
+                    <input type="text" name="search" class="form-control bg-dark text-white border-0"
+                           placeholder="Search roles by name..." value="@Context.Request.Query["search"]" />
+                    <button class="btn btn-primary px-4" type="submit">Filter</button>
+                </form>
+            </div>
+        </div>
+
+        @if (Model?.Any() == true)
+        {
+            <div class="table-container mx-4 mb-4">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Identity Hash</th>
+                            <th>Role Name</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var role in Model)
+                        {
+                            <tr>
+                                <td class="ps-4">
+                                    <code class="text-info small">@role.Id.ToString().Substring(0, 8)...</code>
+                                </td>
+
+                                <td class="fw-bold text-black" style="color: #000 !important;">
+                                    <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary border border-primary border-opacity-10 px-3 py-2">
+                                        @role.Name
+                                    </span>
+                                </td>
+
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        @* Buttons Partial (Details & Edit) *@
+                                        <partial name="_ButtonsPartialView" model="@role.Id" />
+
+                                        @* زر الحذف *@
+                                        <button class="btn btn-sm btn-danger shadow-sm"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal-@role.Id">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+
+                                    @* Modal الحذف *@
+                                    <div class="modal fade" id="deleteModal-@role.Id" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content border-0 shadow-lg"
+                                                 style="background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(15px); border-radius: 15px; overflow: hidden;">
+
+                                                <div class="card-header-custom border-bottom border-white border-opacity-10 py-3 text-start">
+                                                    <h5 class="modal-title text-white fs-6">
+                                                        <i class="fas fa-exclamation-triangle me-2 text-warning"></i> Confirm Deletion
+                                                    </h5>
+                                                </div>
+
+                                                <div class="modal-body text-center py-5">
+                                                    <div class="mb-3">
+                                                        <i class="fas fa-shield-virus fa-4x text-danger animate__animated animate__shakeX"></i>
+                                                    </div>
+                                                    <h5 class="text-white mb-2">Are you sure?</h5>
+                                                    <p class="text-muted px-4">
+                                                        You are about to delete the role <span class="text-info fw-bold">@role.Name</span>.
+                                                        Users assigned to this role may lose permissions.
+                                                    </p>
+                                                </div>
+
+                                                <div class="modal-footer border-top border-white border-opacity-10 py-3 d-flex justify-content-center gap-3">
+                                                    <button type="button" class="btn btn-outline-light px-4" data-bs-dismiss="modal">Cancel</button>
+
+                                                    <form asp-action="Delete" asp-route-id="@role.Id" method="post">
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" class="btn btn-danger px-4 shadow-sm">
+                                                            Yes, Delete Role
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <i class="fas fa-folder-open fa-4x text-muted mb-3 opacity-25"></i>
+                <h5 class="text-muted fw-light">No roles found</h5>
+                <a asp-action="Create" class="btn btn-link text-primary text-decoration-none">Create your first role now</a>
+            </div>
+        }
+    </div>
+</div>

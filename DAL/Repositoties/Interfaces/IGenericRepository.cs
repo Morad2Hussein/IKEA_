@@ -1,23 +1,26 @@
-﻿
+﻿using System.Linq.Expressions;
 
-using Demo.DAL.Models.Common;
-using System.Linq.Expressions;
 
 namespace Demo.DAL.Repositoties.Interfaces
 {
     public interface IGenericRepository<TEntity> where TEntity : BaseEntity, new()
     {
-  
-        void Add(TEntity entity);
-        IEnumerable<TEntity> GetAll(bool withTracking = false);
-        IEnumerable<TResult> GetAll<TResult>(Expression<Func<TEntity, TResult>> selector);
-        IEnumerable<TEntity> GetALL(Expression<Func<TEntity,bool>> predicate, bool withTracking = false);
-        TEntity? GetById(int id);
+        // AddAsync is used for some providers, though usually Add is fine. 
+        // We'll use Async to keep the pattern consistent.
+        Task AddAsync(TEntity entity);
+
+        Task<IEnumerable<TEntity>> GetAllAsync(bool withTracking = false);
+
+        Task<IEnumerable<TResult>> GetAllAsync<TResult>(Expression<Func<TEntity, TResult>> selector);
+
+        Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, bool withTracking = false);
+
+        Task<TEntity?> GetByIdAsync(int id);
+
+        // Update and Remove don't have Async versions in EF because they only mark the state in memory
         void Remove(TEntity entity);
         void Update(TEntity entity);
-        IEnumerable<TEntity> GetIEnumerable();
+
         IQueryable<TEntity> GetIQueryable();
-
-
     }
 }

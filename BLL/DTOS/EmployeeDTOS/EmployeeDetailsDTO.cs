@@ -20,5 +20,6 @@ namespace Demo.BLL.DTOS.EmployeeDTOS
         public string? Gender { get; set; }
         public int? DepartmentId { get; set; }
         public string? Department { get; set; }
+        public string? PhotoName { get; set; }
     }
 }

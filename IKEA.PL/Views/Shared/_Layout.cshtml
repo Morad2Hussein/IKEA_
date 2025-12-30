@@ -4,55 +4,112 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Demo.Presentation</title>
-    <script type="importmap"></script>
+
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          crossorigin="anonymous" />
+
+    <!-- Site Styles -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Demo.Presentation.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 </head>
+
 <body>
+
+    <!-- Navbar -->
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Demo.Presentation</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-3"
+             style="background: rgba(15,23,42,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <div class="container-fluid px-4">
+                <a class="navbar-brand fw-bold text-white fs-4"
+                   asp-controller="Home" asp-action="Index">
+                    <i class="fa-solid fa-layer-group me-2 text-primary"></i>
+                    Demo.Presentation
+                </a>
+
+                <button class="navbar-toggler border-0" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#mainNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-3">
+                       
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-light hover-accent" asp-controller="Department" asp-action="Index">
+                                <i class="fa-solid fa-building me-1 text-primary"></i>Departments
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-light hover-accent" asp-controller="Employee" asp-action="Index">
+                                <i class="fa-solid fa-users me-1 text-primary"></i>Employees
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Department" asp-action="Index">Departments</a>
+                            <a class="nav-link text-light hover-accent" asp-controller="User" asp-action="Index">
+                                <i class="fa-solid fa-user-gear me-1 text-primary"></i>Users
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employees</a>
+                            <a class="nav-link text-light hover-accent" asp-controller="Role" asp-action="Index">
+                                <i class="fa-solid fa-user-gear me-1 text-primary"></i>Roles
+                            </a>
+                        </li>
+                       
+                    </ul>
+
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item">
+                            <a class="btn btn-outline-warning btn-sm rounded-pill px-4 fw-bold"
+                               asp-controller="Account" asp-action="LogOut">
+                                <i class="fa-solid fa-right-from-bracket me-2"></i>Logout
+                            </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - Demo.Presentation - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <!-- Main -->
+    <main class="container my-5">
+        <div class="card border-0"
+             style="
+                background: rgba(15,23,42,0.85);
+                border-radius: 16px;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+                color: #f9fafb;
+             ">
+            <div class="card-body p-4">
+                @RenderBody()
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto py-4"
+            style="background: rgba(15,23,42,0.9); border-top: 1px solid rgba(255,255,255,0.1);">
+        <div class="container d-flex justify-content-between align-items-center">
+            <span style="color:#94a3b8;">&copy; 2025 Demo.Presentation</span>
+            <a asp-controller="Home"
+               asp-action="Privacy"
+               class="text-decoration-none"
+               style="color:#3b82f6;">
+                Privacy Policy
+            </a>
         </div>
     </footer>
+
+    <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

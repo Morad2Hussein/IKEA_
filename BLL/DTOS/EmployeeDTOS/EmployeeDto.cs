@@ -1,5 +1,6 @@
 ﻿
 
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace Demo.BLL.DTOS.EmployeeDTOS
@@ -20,7 +21,9 @@ namespace Demo.BLL.DTOS.EmployeeDTOS
         public string EmployeeTypes { get; set; } = string.Empty;
         public string Gender { get; set; } = string.Empty;
 
-        public string? Department { get; set; }   
+        public string? Department { get; set; }
+        [Display(Name ="Photo")]
+        public string? PhotoName { get; set; }
 
 
     }

@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Check Your Inbox";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<div class="d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+    @* Using your .main-card class *@
+    <div class="main-card animate__animated animate__fadeIn" style="max-width: 500px; width: 100%;">
+
+        @* Using your .card-header-custom class *@
+        <div class="card-header-custom text-center py-4">
+            <h5 class="m-0 text-white">
+                <i class="fas fa-envelope-open-text me-2 text-primary"></i> Verify Your Email
+            </h5>
+        </div>
+
+        <div class="content-body p-4 text-center">
+            @* Visual feedback icon *@
+            <div class="mb-4">
+                <div class="display-4 text-primary animate__animated animate__pulse animate__infinite">
+                    <i class="fas fa-paper-plane"></i>
+                </div>
+            </div>
+
+            <h3 class="text-white mb-3">Check Your Inbox</h3>
+
+            <p class="text-muted mb-4">
+                A password reset link has been sent to your email address.<br />
+                Please check your inbox and follow the instructions to continue.
+            </p>
+
+            @* Your exact Checkbox logic *@
+            <div class="wthree-text mb-4 d-inline-block text-start p-3 rounded bg-white bg-opacity-5 border border-white border-opacity-10">
+                <label class="anim cursor-pointer d-flex align-items-center gap-2">
+                    <input type="checkbox" id="confirmCheck" class="checkbox" />
+                    <span class="text-white small">I’ve checked my email inbox</span>
+                </label>
+            </div>
+
+            @* Your exact Link logic *@
+            <div class="mt-2">
+                <a href="https://mail.google.com"
+                   target="_blank"
+                   id="inboxBtn"
+                   class="btn btn-primary px-5 py-2 fw-bold disabled shadow-sm"
+                   aria-disabled="true">
+                    <i class="fab fa-google me-2"></i> Open Gmail Inbox
+                </a>
+            </div>
+
+            <div class="mt-4 pt-3 border-top border-white border-opacity-10">
+                <p class="text-muted small">
+                    Didn't get the email?
+                    <a asp-action="ForgotPassword" class="text-primary fw-bold text-decoration-none ms-1">Try again</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+

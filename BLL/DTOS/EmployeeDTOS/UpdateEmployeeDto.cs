@@ -1,6 +1,7 @@
 ﻿
 
 using Demo.BLL.DTOS.EmployeeDTOS.Common;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace Demo.BLL.DTOS.EmployeeDTOS
@@ -43,6 +44,9 @@ namespace Demo.BLL.DTOS.EmployeeDTOS
         public Gender Gender { get; set; }
         [Display(Name = "Hiring Date")]
         public DateOnly HiringDate { get; set; }
+        public IFormFile? Photo { get; set; }
+        public string? PhotoName { get; set; }
+
 
 
         #endregion

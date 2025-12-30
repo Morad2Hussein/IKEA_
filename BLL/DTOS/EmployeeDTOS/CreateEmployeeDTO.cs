@@ -1,5 +1,6 @@
 ﻿
 using Demo.BLL.DTOS.EmployeeDTOS.Common;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace Demo.BLL.DTOS.EmployeeDTOS
@@ -44,6 +45,7 @@ namespace Demo.BLL.DTOS.EmployeeDTOS
         #endregion
         [Display(Name ="Department")]
         public  int? DepartmentId { get; set; }
+        public IFormFile? Photo { get; set; }
 
 
     }

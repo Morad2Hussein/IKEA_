@@ -1,0 +1,74 @@
+﻿@model RoleViewModels
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" class="text-decoration-none">Roles</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Role Details</li>
+        </ol>
+    </nav>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-1">Role Configuration</h1>
+            <p class="text-muted mb-0">Reviewing properties for role: <span class="fw-bold text-primary">@Model.Name</span></p>
+        </div>
+        <div class="btn-group shadow-sm">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success px-4">
+                <i class="fas fa-edit me-1"></i> Edit Role
+            </a>
+            <a asp-action="Index" class="btn btn-outline-dark">
+                <i class="fas fa-list me-1"></i> Back to List
+            </a>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs border-bottom-0" id="roleTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active fw-bold px-4" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">
+                <i class="fas fa-info-circle me-2"></i>General Information
+            </button>
+        </li>
+    </ul>
+
+    <div class="card shadow-sm border-top-0" style="border-top-left-radius: 0;">
+        <div class="card-body p-0">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active p-4" id="general" role="tabpanel" aria-labelledby="general-tab">
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded bg-light">
+                                <label class="form-label text-uppercase small fw-bold text-muted mb-1" asp-for="Id"></label>
+                                <div class="h6 mb-0 text-dark font-monospace">@Model.Id</div>
+                                @* Hidden input to maintain Model Binding if needed by scripts *@
+                                <input asp-for="Id" type="hidden" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded bg-light">
+                                <label class="form-label text-uppercase small fw-bold text-muted mb-1" asp-for="Name"></label>
+                                <div class="h6 mb-0 text-dark fw-bold">@Model.Name</div>
+                                @* Hidden input to maintain Model Binding if needed by scripts *@
+                                <input asp-for="Name" type="hidden" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3 text-end">
+        <small class="text-muted italic">
+            <i class="fas fa-history me-1"></i> This role is currently active in the system.
+        </small>
+    </div>
+</div>
+

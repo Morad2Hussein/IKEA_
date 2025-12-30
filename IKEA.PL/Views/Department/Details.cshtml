@@ -1,62 +1,99 @@
 ﻿@model DepartmentDetailsDto
-<h1 class="my-5 w-75">Department @Model.Name Details</h1>
 
-
-<ul class="nav nav-tabs" id="departmentTabs" role="tablist">
-    <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="general-tab" data-bs-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">General</a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="administration-tab" data-bs-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false">Administration</a>
-    </li>
-</ul>
-
-<div class="tab-content" id="myTabContent">
-    <!-- General Tab Content -->
-    <div class="tab-pane fade show active p-4 border" id="general" role="tabpanel" aria-labelledby="general-tab">
-
-        <div class="row">
-            <div class="form-group col-6">
-                <label class="col-form-label" asp-for="Code"></label>
-                <input asp-for="Code" class="form-control" readonly />
-            </div>
-            <div class="form-group col-6">
-                <label class="col-form-label" asp-for="Name"></label>
-                <input asp-for="Name" class="form-control" readonly />
-            </div>
-            <div class="form-group col-12">
-                <label class="col-form-label" asp-for="Description"></label>
-                <input asp-for="Description" class="form-control" readonly />
-            </div>
-            <div class="form-group col-12">
-                <label class="col-form-label" asp-for="CreatedOn"></label>
-                <input asp-for="CreatedOn" class="form-control" readonly />
-            </div>
-
+<div class="main-card animate__animated animate__fadeIn">
+    @* Header: Integrated with your Professional Layout *@
+    <div class="card-header-custom d-flex justify-content-between align-items-center">
+        <h5 class="m-0 text-white">
+            <i class="fas fa-building me-2 text-primary"></i> Department @Model.Name Details
+        </h5>
+        <div class="d-flex gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-sm shadow-sm">
+                <i class="fas fa-edit me-1"></i> Edit
+            </a>
+            <a asp-action="Index" class="btn btn-outline-light btn-sm">
+                <i class="fas fa-arrow-left me-1"></i> Back To list
+            </a>
         </div>
     </div>
 
-    <!-- Administration Tab Content -->
-    <div class="tab-pane fade p-4 border" id="administration" role="tabpanel" aria-labelledby="administration-tab">
-        <div class="form-group  col-12">
-            <label class="col-form-label" asp-for="CreatedOn"></label>
-            <input asp-for="CreatedOn" class="form-control" readonly />
+    <div class="content-body">
+        @* Tab Navigation: Your exact structure with professional styling *@
+        <ul class="nav nav-tabs border-0 mb-0" id="departmentTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active fw-bold px-4" id="general-tab" data-bs-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">
+                    General
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link fw-bold px-4" id="administration-tab" data-bs-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false">
+                    Administration
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content border rounded-bottom bg-white p-4 shadow-sm" id="myTabContent">
+
+            <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+                <div class="row g-3">
+                    <div class="form-group col-6">
+                        <label class="col-form-label text-muted small fw-bold" asp-for="Code"></label>
+                        @* Added text-dark and fw-bold for professional black text *@
+                        <input asp-for="Code" class="form-control bg-light text-dark fw-bold" readonly />
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="col-form-label text-muted small fw-bold" asp-for="Name"></label>
+                        <input asp-for="Name" class="form-control bg-light text-dark fw-bold" readonly />
+                    </div>
+                    <div class="form-group col-12">
+                        <label class="col-form-label text-muted small fw-bold" asp-for="Description"></label>
+                        <input asp-for="Description" class="form-control bg-light text-dark" readonly />
+                    </div>
+                    <div class="form-group col-12">
+                        <label class="col-form-label text-muted small fw-bold" asp-for="CreatedOn"></label>
+                        <input asp-for="CreatedOn" class="form-control bg-light text-dark" readonly />
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="administration" role="tabpanel" aria-labelledby="administration-tab">
+                <div class="row g-3">
+                    <div class="form-group col-12">
+                        <label class="col-form-label text-muted small fw-bold" asp-for="CreatedOn"></label>
+                        <input asp-for="CreatedOn" class="form-control bg-light text-dark" readonly />
+                    </div>
+                    <div class="form-group col-12">
+                        <label class="col-form-label text-muted small fw-bold">CreatedOn</label>
+                        <input asp-for="CreatedOn" class="form-control bg-light text-dark" readonly />
+                    </div>
+                    <div class="form-group col-12">
+                        <label class="col-form-label text-muted small fw-bold" asp-for="ModifiedBy"></label>
+                        <input asp-for="ModifiedBy" class="form-control bg-light text-dark" readonly />
+                    </div>
+                    <div class="form-group col-12">
+                        <label class="col-form-label text-muted small fw-bold" asp-for="ModifiedOn"></label>
+                        <input asp-for="ModifiedOn" class="form-control bg-light text-dark" readonly />
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-group  col-12">
-            <label class="col-form-label">CreatedOn</label>
-            <input asp-for="CreatedOn" class="form-control" readonly />
-        </div>
-        <div class="form-group  col-12">
-            <label class="col-form-label" asp-for="ModifiedBy"></label>
-            <input asp-for="ModifiedBy" class="form-control" readonly />
-        </div>
-        <div class="form-group  col-12">
-            <label class="col-form-label" asp-for="ModifiedOn"></label>
-            <input asp-for="ModifiedOn" class="form-control" readonly />
-        </div>
-    </div>
-    <div class="mt-4">
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Edit</a>
-        <a asp-action="Index" class="btn btn-outline-dark">Back To list</a>
     </div>
 </div>
+
+<style>
+    /* Styling to make tabs look like a professional dashboard */
+    .nav-tabs .nav-link {
+        border: none;
+        color: #6c757d;
+        border-bottom: 3px solid transparent;
+    }
+
+        .nav-tabs .nav-link.active {
+            color: #0d6efd !important;
+            background: white !important;
+            border-bottom: 3px solid #0d6efd !important;
+        }
+
+    .form-control[readonly] {
+        border: 1px solid #dee2e6;
+    }
+</style>

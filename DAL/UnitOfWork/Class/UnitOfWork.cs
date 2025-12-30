@@ -1,33 +1,43 @@
 ﻿using Demo.DAL.Repositoties.Classes;
+using Demo.DAL.Repositoties.Interfaces;
 using Demo.DAL.UnitOfWork.Interface;
+
+
 namespace Demo.DAL.UnitOfWork.Class
 {
     public class UnitOfWork : IUnitOfWork
     {
-       
         private readonly Dictionary<Type, object> _repositories = new();
         private readonly ApplicationDbContext _dbContext;
 
-        public UnitOfWork(ApplicationDbContext dbContext )
+        public UnitOfWork(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
-           
         }
-
-      
 
         public IGenericRepository<TEntity> Repository<TEntity>() where TEntity : BaseEntity, new()
         {
-           var EntityType = typeof(TEntity);
-            if (_repositories.TryGetValue(EntityType, out var Repo)) 
-                 return (IGenericRepository<TEntity>)Repo;
-            var NewRepo = new GenericRepository<TEntity>(_dbContext);
-            return NewRepo;
+            var entityType = typeof(TEntity);
+
+            if (!_repositories.ContainsKey(entityType))
+            {
+                // Create the repository and add it to the dictionary for reuse
+                var newRepo = new GenericRepository<TEntity>(_dbContext);
+                _repositories.Add(entityType, newRepo);
+            }
+
+            return (IGenericRepository<TEntity>)_repositories[entityType];
         }
 
-        public int SaveChanges()
+        // Async Implementation
+        public async Task<int> SaveChangesAsync()
         {
-           return _dbContext.SaveChanges();
+            return await _dbContext.SaveChangesAsync();
+        }
+
+        public void Dispose()
+        {
+            _dbContext.Dispose();
         }
     }
 }

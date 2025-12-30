@@ -1,0 +1,109 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<div class="d-flex align-items-center justify-content-center py-5">
+    @* Using your .main-card class for the glass effect *@
+    <div class="main-card animate__animated animate__fadeIn" style="max-width: 600px; width: 100%;">
+
+        @* Using your .card-header-custom class *@
+        <div class="card-header-custom">
+            <h5 class="m-0 text-white">
+                <i class="fas fa-user-plus me-2 text-primary"></i> Create Account
+            </h5>
+            <small class="text-muted">Join our management system</small>
+        </div>
+
+        <div class="content-body p-4">
+            <form asp-controller="Account" asp-action="Register" method="post">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 shadow-sm small"></div>
+
+                <div class="row g-3">
+                    @* Username *@
+                    <div class="col-12">
+                        <label class="form-label text-muted small fw-bold" asp-for="Username">USERNAME</label>
+                        <input asp-for="Username" class="form-control border-0 text-dark fw-bold"
+                               style="background: rgba(255,255,255,0.95);" placeholder="Choose a unique username">
+                        <span asp-validation-for="Username" class="text-danger small"></span>
+                    </div>
+
+                    @* First & Last Name *@
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-bold" asp-for="FirstName">FIRST NAME</label>
+                        <input asp-for="FirstName" class="form-control border-0 text-dark fw-bold"
+                               style="background: rgba(255,255,255,0.95);" placeholder="First name">
+                        <span asp-validation-for="FirstName" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-bold" asp-for="LastName">LAST NAME</label>
+                        <input asp-for="LastName" class="form-control border-0 text-dark fw-bold"
+                               style="background: rgba(255,255,255,0.95);" placeholder="Last name">
+                        <span asp-validation-for="LastName" class="text-danger small"></span>
+                    </div>
+
+                    @* Email *@
+                    <div class="col-12">
+                        <label class="form-label text-muted small fw-bold" asp-for="Email">EMAIL ADDRESS</label>
+                        <input asp-for="Email" class="form-control border-0 text-dark fw-bold"
+                               style="background: rgba(255,255,255,0.95);" placeholder="email@example.com">
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    @* Passwords *@
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-bold" asp-for="Password">PASSWORD</label>
+                        <input asp-for="Password" type="password" class="form-control border-0 text-dark fw-bold"
+                               style="background: rgba(255,255,255,0.95);" placeholder="••••••••">
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-bold" asp-for="ConfirmPassword">CONFIRM</label>
+                        <input asp-for="ConfirmPassword" type="password" class="form-control border-0 text-dark fw-bold"
+                               style="background: rgba(255,255,255,0.95);" placeholder="••••••••">
+                        <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                    </div>
+
+                    @* Terms and Conditions *@
+                    <div class="col-12 my-3">
+                        <div class="form-check">
+                            <input asp-for="IsAgreed" class="form-check-input checkbox">
+                            <label class="form-check-label text-muted small" asp-for="IsAgreed">
+                                I Agree To The <a href="#" class="text-primary text-decoration-none">Terms & Conditions</a>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-bold shadow-sm">
+                    CREATE ACCOUNT <i class="fas fa-arrow-right ms-2"></i>
+                </button>
+            </form>
+
+            <div class="text-center mt-4">
+                <p class="text-muted small">
+                    Have an Account?
+                    <a asp-controller="Account" asp-action="Login" class="text-primary fw-bold text-decoration-none">Login Now!</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* <style>
+    .form-control:focus {
+        background: #ffffff !important;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    }
+
+    .form-control::placeholder {
+        color: #adb5bd;
+        font-weight: normal;
+    }
+    /* Match checkbox to primary color */
+    .form-check-input:checked {
+        background-color: var(--primary-accent);
+        border-color: var(--primary-accent);
+    }
+</style> *@

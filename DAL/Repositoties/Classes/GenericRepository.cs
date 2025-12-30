@@ -1,5 +1,4 @@
 ﻿
-
 using System.Linq.Expressions;
 
 
@@ -14,9 +13,9 @@ namespace Demo.DAL.Repositoties.Classes
             _dbContext = dbContext;
         }
 
-        public void Add(TEntity entity)
+        public async Task AddAsync(TEntity entity)
         {
-            _dbContext.Set<TEntity>().Add(entity);
+            await _dbContext.Set<TEntity>().AddAsync(entity);
         }
 
         public void Remove(TEntity entity)
@@ -24,42 +23,48 @@ namespace Demo.DAL.Repositoties.Classes
             _dbContext.Set<TEntity>().Remove(entity);
         }
 
-        public IEnumerable<TEntity> GetAll(bool withTracking = false) {
-            if (withTracking)
-                return _dbContext.Set<TEntity>().Where(entity => entity.IsDeleted == false).ToList();
-            else
-                return _dbContext.Set<TEntity>().Where(entity => entity.IsDeleted == false).AsNoTracking().ToList();
-        }
-        public TEntity? GetById(int id)
-            => _dbContext.Set<TEntity>().Find(id);
-
         public void Update(TEntity entity)
         {
             _dbContext.Set<TEntity>().Update(entity);
-       
         }
 
-        public IEnumerable<TResult> GetAll<TResult>(Expression<Func<TEntity, TResult>> selector)
+        public async Task<TEntity?> GetByIdAsync(int id)
         {
-            return _dbContext.Set<TEntity>().Where(entity => entity.IsDeleted == false).Select(selector).ToList();
+            // FindAsync is the async version of Find
+            return await _dbContext.Set<TEntity>().FindAsync(id);
         }
 
-        public IEnumerable<TEntity> GetALL(Expression<Func<TEntity, bool>> predicate, bool withTracking = false)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(bool withTracking = false)
         {
-            var query = _dbContext.Set<TEntity>().Where(predicate).Where(e => e.IsDeleted == false);
+            var query = _dbContext.Set<TEntity>().Where(e => !e.IsDeleted);
 
-            return withTracking ? query.ToList() : query.AsNoTracking().ToList();
+            if (!withTracking)
+                query = query.AsNoTracking();
+
+            return await query.ToListAsync();
         }
 
-
-        public IEnumerable<TEntity> GetIEnumerable()
+        public async Task<IEnumerable<TResult>> GetAllAsync<TResult>(Expression<Func<TEntity, TResult>> selector)
         {
-            return _dbContext.Set<TEntity>();
+            return await _dbContext.Set<TEntity>()
+                .Where(e => !e.IsDeleted)
+                .Select(selector)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, bool withTracking = false)
+        {
+            var query = _dbContext.Set<TEntity>().Where(predicate).Where(e => !e.IsDeleted);
+
+            if (!withTracking)
+                query = query.AsNoTracking();
+
+            return await query.ToListAsync();
         }
 
         public IQueryable<TEntity> GetIQueryable()
         {
-            return _dbContext.Set<TEntity>();
+            return _dbContext.Set<TEntity>().Where(e => !e.IsDeleted);
         }
     }
 }

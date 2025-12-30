@@ -1,13 +1,14 @@
-﻿
+﻿using System;
+using System.Threading.Tasks;
+
 
 namespace Demo.DAL.UnitOfWork.Interface
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
-
-
-       
         IGenericRepository<TEntity> Repository<TEntity>() where TEntity : BaseEntity, new();
-        int  SaveChanges();
+
+        // Changed to Task<int> for async saving
+        Task<int> SaveChangesAsync();
     }
 }

@@ -1,5 +1,6 @@
 ﻿
 using Demo.BLL.DTOS.EmployeeDTOS.Common;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace Demo.BLL.ViewModels
@@ -41,10 +42,13 @@ namespace Demo.BLL.ViewModels
         public Gender Gender { get; set; }
         [Display(Name = "Hiring Date")]
         public DateOnly HiringDate { get; set; }
+        public IFormFile? Photo { get; set; }
+        public string? PhotoName { get; set; }
 
 
         #endregion
         [Display(Name = "Department")]
         public  int? DepartmentId { get; set; }
+
     }
 }

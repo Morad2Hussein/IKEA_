@@ -1,76 +1,86 @@
-﻿namespace Demo.BLL.Services.classes
+﻿
+namespace Demo.BLL.Services.classes
 {
     public class DepartmentService : IDepartmentService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+
         public DepartmentService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        #region Get All Departments
 
-        public IEnumerable<DepartmentDto> GetAllDepartments(string? DepartmentSearchName = null, bool withTracking = false)
+        #region Get All Departments
+        public async Task<IEnumerable<DepartmentDto>> GetAllDepartmentsAsync(string? DepartmentSearchName = null, bool withTracking = false)
         {
             var repo = _unitOfWork.Repository<Department>();
             IEnumerable<Department> departments;
 
             if (!string.IsNullOrWhiteSpace(DepartmentSearchName))
             {
-                departments = repo.GetALL(
+                // Using the Async version of GetALL (predicate based)
+                departments = await repo.GetAllAsync(
                     d => EF.Functions.Like(d.Name, $"%{DepartmentSearchName}%"),
                     withTracking
                 );
             }
             else
             {
-                departments = repo.GetAll(withTracking);
+                // Using the Async version of GetAll
+                departments = await repo.GetAllAsync(withTracking);
             }
 
-            var departmentDtos = _mapper.Map<IEnumerable<DepartmentDto>>(departments);
-            return departmentDtos;
+            return _mapper.Map<IEnumerable<DepartmentDto>>(departments);
         }
         #endregion
+
         #region Get By Id
-        public DepartmentDetailsDto? GetDepartmentById(int id)
+        public async Task<DepartmentDetailsDto?> GetDepartmentByIdAsync(int id)
         {
-            var department = _unitOfWork.Repository<Department>().GetById(id);
+            var department = await _unitOfWork.Repository<Department>().GetByIdAsync(id);
             return _mapper.Map<DepartmentDetailsDto>(department);
         }
         #endregion
+
         #region Add Or Create 
-        public int AddDepartment(CreateDepartmentDto departmentDto)
+        public async Task<int> AddDepartmentAsync(CreateDepartmentDto departmentDto)
         {
             var department = _mapper.Map<Department>(departmentDto);
-            _unitOfWork.Repository<Department>().Add(department);
-            return _unitOfWork.SaveChanges();
-        }
 
+            // Note: AddAsync is used here
+            await _unitOfWork.Repository<Department>().AddAsync(department);
+
+            return await _unitOfWork.SaveChangesAsync();
+        }
         #endregion
+
         #region Update 
-        public int UpdateDepartment(UpdateDepartmentDto departmentDto)
+        public async Task<int> UpdateDepartmentAsync(UpdateDepartmentDto departmentDto)
         {
             var department = _mapper.Map<Department>(departmentDto);
-            _unitOfWork.Repository<Department>().Update(department);
-            return _unitOfWork.SaveChanges();
 
+            // Update in EF is a local state change, but we save asynchronously
+            _unitOfWork.Repository<Department>().Update(department);
+
+            return await _unitOfWork.SaveChangesAsync();
         }
         #endregion
-        #region Remove
-        public bool DeleteDepartment(int id)
-        {
-            var Repo = _unitOfWork.Repository<Department>();
 
-            var department = Repo.GetById(id);
+        #region Remove
+        public async Task<bool> DeleteDepartmentAsync(int id)
+        {
+            var repo = _unitOfWork.Repository<Department>();
+
+            var department = await repo.GetByIdAsync(id);
             if (department is null)
                 return false;
 
-            Repo.Remove(department);
-            return _unitOfWork.SaveChanges() > 0;
+            repo.Remove(department);
+
+            return await _unitOfWork.SaveChangesAsync() > 0;
         }
         #endregion
-
     }
 }

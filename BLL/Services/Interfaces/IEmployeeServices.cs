@@ -4,17 +4,10 @@ namespace Demo.BLL.Services.Interfaces
 {
     public interface IEmployeeServices
     {
-        // Get All Employees
-        IEnumerable<EmployeeDto> GetAllEmployee( string? EmployeeSearchName,bool withTracking = false);
-
-        // Get Employee By Id
-        EmployeeDetailsDTO? GetEmployeeById(int id);
-        // Create Employee
-        int CreateEmployee(CreateEmployeeDTO createEmployee);
-        // Update Employee
-        int UpdateEmployee(UpdateEmployeeDto updateEmployee);
-
-        // Delete Employee
-         bool DeleteEmployee(int id);
+        Task<IEnumerable<EmployeeDto>> GetAllEmployeeAsync(string? EmployeeSearchName, bool withTracking = false);
+        Task<EmployeeDetailsDTO?> GetEmployeeByIdAsync(int id);
+        Task<int> CreateEmployeeAsync(CreateEmployeeDTO createEmployee);
+        Task<int> UpdateEmployeeAsync(UpdateEmployeeDto updateEmployee);
+        Task<bool> DeleteEmployeeAsync(int id);
     }
 }

@@ -8,11 +8,12 @@ namespace Demo.BLL.Mapping
 
 
     {
-       public ProfileMapping() {
+        public ProfileMapping()
+        {
 
             DepartmentMapping();
             EmployeeMapping();
-         
+
         }
 
         private void DepartmentMapping()
@@ -57,11 +58,20 @@ namespace Demo.BLL.Mapping
                 .ForMember(dest => dest.EmployeeTypes, options => options.MapFrom(src => src.EmployeeType))
                              .ForMember(dest => dest.Department,
                        opt => opt.MapFrom(src => src.Department != null ? src.Department.Name : null));
-            CreateMap<Employee, EmployeeDetailsDTO>().
-                    ForMember(dest => dest.Gender, options => options.MapFrom(src => src.Gender))
-                .ForMember(dest => dest.EmployeeTypes, options => options.MapFrom(src => src.EmployeeType))
-                .ForMember(dest => dest.HiringDate, options => options.MapFrom(src => DateOnly.FromDateTime(src.HiringDate))).ForMember(dest => dest.Department,
-                       opt => opt.MapFrom(src => src.Department != null ? src.Department.Name : null));
+            CreateMap<Employee, EmployeeDetailsDTO>()
+                                    .ForMember(dest => dest.PhotoName,
+                                        opt => opt.MapFrom(src => src.PhotoName))
+                                    .ForMember(dest => dest.Gender,
+                                        opt => opt.MapFrom(src => src.Gender))
+                                    .ForMember(dest => dest.EmployeeTypes,
+                                        opt => opt.MapFrom(src => src.EmployeeType))
+                                    .ForMember(dest => dest.HiringDate,
+                                        opt => opt.MapFrom(src => DateOnly.FromDateTime(src.HiringDate)))
+                                    .ForMember(dest => dest.Department,
+                                        opt => opt.MapFrom(src =>
+                                            src.Department != null ? src.Department.Name : null
+                                        ));
+
             CreateMap<CreateEmployeeDTO, Employee>()
                 .ForMember(dest => dest.HiringDate, options => options.MapFrom(src => src.HiringDate.ToDateTime(TimeOnly.MinValue)));
             CreateMap<UpdateEmployeeDto, Employee>()
