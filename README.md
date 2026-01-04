@@ -44,4 +44,4 @@ Key Features
 
     🔹Custom user-friendly error pages and centralized logging
     
-![Image](https://github.com/user-attachments/assets/0c01bcec-c1c8-433e-a663-1564e6711ecc)
+![Image](https://github.com/user-attachments/assets/39b7c659-ae5d-4dd6-b1f0-3b5bfc104720)
